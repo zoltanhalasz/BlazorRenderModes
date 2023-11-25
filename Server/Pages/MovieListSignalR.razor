@@ -58,7 +58,7 @@ else
         MovieDetails = null;
         StateHasChanged();
 
-        await Task.Delay(2000);
+        //await Task.Delay(2000);
 
         MovieDetails = await Http.GetFromJsonAsync<MovieDetails>($"movie/{id}");
         StateHasChanged();

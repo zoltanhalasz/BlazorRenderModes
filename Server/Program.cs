@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
+builder.Services.AddRazorComponents(options => options.DetailedErrors = true)
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
