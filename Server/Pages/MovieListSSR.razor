@@ -19,7 +19,7 @@ else
     
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 justify-content-center justify-content-xl-start">
 
-        @foreach (var movie in MovieResponse.Results.Take(8))
+        @foreach (var movie in MovieResponse.Results.Take(32))
         {
             <div class="col">
                 <MovieCard PopularMovie="movie" UseJSForBtn="true" />

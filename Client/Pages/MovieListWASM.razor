@@ -7,7 +7,7 @@
 {
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 justify-content-center justify-content-xl-start">
 
-        @for (int i = 1; i <= 8; i++)
+        @for (int i = 1; i <= 32; i++)
         {
             <div class="col">
                 <MovieCard />
@@ -21,7 +21,7 @@ else
     
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 justify-content-center justify-content-xl-start">
 
-        @foreach (var movie in MovieResponse.Results.Take(8))
+        @foreach (var movie in MovieResponse.Results.Take(32))
         {
             <div class="col" @key="movie.Id">
                 <MovieCard PopularMovie="movie" ModalId="movie-modal" OnBtnClick="GetMovieDetails" />
@@ -39,15 +39,17 @@ else
 
     private MovieDetails? MovieDetails { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        //await Task.Delay(3000);
-        MovieResponse = await Http.GetFromJsonAsync<PopularMovieResponse>("movie/popular");
-    }
+        if (!firstRender)
+            return;
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        Console.WriteLine("Hello from WASM component");
+        // Code that shouldn't get called twice
+
+        MovieResponse = await Http.GetFromJsonAsync<PopularMovieResponse>("movie/popular");
+        Console.WriteLine("Hello from Wasm component");
+        StateHasChanged(); // IF NOT USED, your updated version of states will not get rendered
+        await base.OnAfterRenderAsync(firstRender); // Not required, it just returns the `Task.CompletedTask;`
     }
 
     private async Task GetMovieDetails(int id)
