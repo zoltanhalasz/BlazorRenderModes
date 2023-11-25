@@ -6,12 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddServerComponents()
-    .AddWebAssemblyComponents();
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
 
 // your TMDB Read Access key must be in the server's secrets.json, e.g.:
 // "TMDBKey": "your-API-key-here"
 string tmdbKey = builder.Configuration["TMDBKey"];
+
+Console.WriteLine(tmdbKey);
 
 builder.Services.AddScoped(sp => {
     var client = new HttpClient();
@@ -33,10 +35,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
-    .AddServerRenderMode()
-    .AddWebAssemblyRenderMode();
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode();
 
 app.MapGet("/movie/popular", async ([FromServices] HttpClient http) =>
 {
