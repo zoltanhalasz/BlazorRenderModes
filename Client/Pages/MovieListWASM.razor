@@ -39,17 +39,11 @@ else
 
     private MovieDetails? MovieDetails { get; set; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (!firstRender)
-            return;
-
-        // Code that shouldn't get called twice
-
+        await Task.Delay(3000);
         MovieResponse = await Http.GetFromJsonAsync<PopularMovieResponse>("movie/popular");
         Console.WriteLine("Hello from Wasm component");
-        StateHasChanged(); // IF NOT USED, your updated version of states will not get rendered
-        await base.OnAfterRenderAsync(firstRender); // Not required, it just returns the `Task.CompletedTask;`
     }
 
     private async Task GetMovieDetails(int id)
@@ -57,7 +51,7 @@ else
         MovieDetails = null;
         StateHasChanged();
 
-        //await Task.Delay(1000);
+        await Task.Delay(1000);
 
         MovieDetails = await Http.GetFromJsonAsync<MovieDetails>($"movie/{id}");
         StateHasChanged();

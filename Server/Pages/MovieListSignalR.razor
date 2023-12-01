@@ -1,6 +1,6 @@
 ﻿@using Server.Models;
 @page "/movies/signalr"
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 
 @inject HttpClient Http
 
@@ -41,19 +41,13 @@ else
 
     private MovieDetails? MovieDetails { get; set; }
 
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (!firstRender)
-            return;
-
-        // Code that shouldn't get called twice
-
+        await Task.Delay(3000);
         MovieResponse = await Http.GetFromJsonAsync<PopularMovieResponse>("movie/popular");
-        Console.WriteLine("Hello from Server component");
-        StateHasChanged(); // IF NOT USED, your updated version of states will not get rendered
-        await base.OnAfterRenderAsync(firstRender); // Not required, it just returns the `Task.CompletedTask;`
+        Console.WriteLine("Hello from Server component");        
     }
+
 
     private async Task GetMovieDetails(int id)
     {

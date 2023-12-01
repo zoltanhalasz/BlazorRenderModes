@@ -10,11 +10,7 @@ builder.Services.AddRazorComponents(options => options.DetailedErrors = true)
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-// your TMDB Read Access key must be in the server's secrets.json, e.g.:
-// "TMDBKey": "your-API-key-here"
 string tmdbKey = builder.Configuration["TMDBKey"];
-
-Console.WriteLine(tmdbKey);
 
 builder.Services.AddScoped(sp => {
     var client = new HttpClient();
@@ -28,8 +24,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler("/Error");    
     app.UseHsts();
 }
 
