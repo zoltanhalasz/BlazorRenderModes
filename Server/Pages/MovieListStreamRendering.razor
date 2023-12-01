@@ -5,40 +5,40 @@
 @inject HttpClient Http
 <h1 class="text-center mt-5 display-3">Popular Movies</h1>
 <div class="container-xl">
-    @if (movies is null)
-{
+    @if (movies is null || movies.Count == 0)
+    {
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 justify-content-center justify-content-xl-start">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 justify-content-center justify-content-xl-start">
 
-        @for (int i = 1; i <= 32; i++)
-        {
-            <div class="col">
-                <MovieCard />
-            </div>
-        }
+            @for (int i = 1; i <= 32; i++)
+            {
+                <div class="col">
+                    <MovieCard />
+                </div>
+            }
 
-    </div>
-}
-else
-{
-   
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 justify-content-center justify-content-xl-start">
+        </div>
+    }
+    else
+    {
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 justify-content-center justify-content-xl-start">
 
             @foreach (var movie in movies)
-        {
-            <div class="col">
-                <MovieCard PopularMovie="movie" UseJSForBtn="true" />
-            </div>
-        }
+            {
+                <div class="col">
+                    <MovieCard PopularMovie="movie" UseJSForBtn="true" />
+                </div>
+            }
 
-    </div>
-    <MovieModalJS />
-}
+        </div>
+        <MovieModalJS />
+    }
 </div>
 
 @code {
     private List<PopularMovie> movies = new List<PopularMovie>();
-    
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,12 +48,12 @@ else
             movies.Add(movie);
             StateHasChanged();
         }
-        
+
     }
 
     public async IAsyncEnumerable<PopularMovie> GetDataAsync()
     {
-        var data =  await Http.GetFromJsonAsync<PopularMovieResponse>("movie/popular");
+        var data = await Http.GetFromJsonAsync<PopularMovieResponse>("movie/popular");
         foreach (var movie in data?.Results.Take(32))
         {
             yield return movie;
