@@ -1,7 +1,7 @@
 ﻿@using Server.Models;
 @page "/movies/stream"
 @attribute [StreamRendering(true)]
-
+@inject IHttpContextAccessor HttpContextAccessor
 @inject HttpClient Http
 <h1 class="text-center mt-5 display-3">Popular Movies</h1>
 <div class="container-xl">
@@ -43,5 +43,6 @@ else
     {
         await Task.Delay(3000);
         MovieResponse = await Http.GetFromJsonAsync<PopularMovieResponse>("movie/popular");
+        await HttpContextAccessor.HttpContext.Response.Body.FlushAsync();
     }
 }
