@@ -14,6 +14,17 @@
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 justify-content-center justify-content-xl-start">
+
+            @for (int i = 1; i <= 32; i++)
+            {
+                <div class="col">
+                    <MovieCard />
+                </div>
+            }
+
+        </div>
     }
     else
     {
